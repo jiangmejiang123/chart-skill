@@ -74,18 +74,31 @@
 
 ## 安装
 
-克隆下来，把整个目录放进你的 agent 技能目录：
+**三步。第三步所有人都跳过，跳过它什么都没发生。**
+
+**第 1 步：克隆 + 装 Python 依赖**
 
 ```bash
 git clone https://github.com/jiangmejiang123/chart-skill
 pip install -r chart-skill/requirements.txt
-
-# 然后整目录放进技能目录，按你的宿主选一个：
-#   Claude Code  → ~/.claude/skills/chart-skill/
-#   其他 agent   → 各自的 skills 目录（如 ~/.dsh/skills/、项目内 .agents/skills/）
 ```
 
-装完开新会话，问它一件需要讲结构的事，看它是不是换了表达方式。
+**第 2 步：整个目录放进你的 agent 技能目录**
+
+```
+Claude Code  → ~/.claude/skills/chart-skill/
+其他 agent   → 各自的 skills 目录（如 ~/.dsh/skills/、项目内 .agents/skills/）
+```
+
+**第 3 步：把规则加进你的工作区守则（AGENTS.md）**
+
+不加这条，技能只会安静地等你开口说"画个图"。
+片段在下面「[它依赖什么](#它依赖什么用之前先看这段)」那节，四小段，直接复制。
+
+做完开新会话，问一件需要讲结构的事，看它是不是换了表达方式。
+
+> 忘了加也没关系：技能第一次被用到时会自己去读你的守则，
+> 发现没有这条就提醒你，并把片段给你。不用背。
 
 > 它认的是 `SKILL.md`（给模型看的判断规则）+ `scripts/`（执行脚本）。
 > 少了 SKILL.md 就只是一个画图工具，少了脚本就只是些建议——两个都要。

@@ -55,16 +55,31 @@ Three numbers or fewer: use a table. Two sentences: just say it. One or two diag
 
 ## Install
 
+**Three steps. The third one is the one everybody skips — and without it, nothing happens.**
+
+**1. Clone and install the Python dependencies**
+
 ```bash
 git clone https://github.com/jiangmejiang123/chart-skill
 pip install -r chart-skill/requirements.txt
-
-# then move the whole directory into your agent's skills folder:
-#   Claude Code  → ~/.claude/skills/chart-skill/
-#   other agents → their own skills dir (e.g. ~/.dsh/skills/, .agents/skills/ in a project)
 ```
 
-Open a new session and ask something that needs structure. Watch whether the answer changes shape.
+**2. Move the directory into your agent's skills folder**
+
+```
+Claude Code  → ~/.claude/skills/chart-skill/
+other agents → their own skills dir (e.g. ~/.dsh/skills/, .agents/skills/ in a project)
+```
+
+**3. Add the rule to your workspace instructions (AGENTS.md)**
+
+Without it, the skill just sits there waiting for you to say "draw me a chart".
+Copy the snippet from [What it depends on](#what-it-depends-on-read-this-before-installing) — it's four short paragraphs.
+
+Then open a new session and ask something that needs structure. Watch whether the answer changes shape.
+
+> Already installed? The skill checks this for you: on first use it reads your workspace rules,
+> and if the rule is missing it will say so and offer you the snippet. You don't have to remember.
 
 > It reads `SKILL.md` (the judgement rules) + `scripts/` (the renderer).
 > Without SKILL.md it's just a chart tool; without the scripts it's just advice. You need both.
