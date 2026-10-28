@@ -1,5 +1,5 @@
 ---
-name: visual-explain
+name: chart-skill
 description: >
   把要说的话变成图。凡是回答里需要解释流程、排查顺序、方案对比、系统结构、时间排期、
   占比分布、变化趋势，或用户说"太长看不懂""别写那么多"时，都先看这里——用图代替大段文字。
@@ -9,9 +9,14 @@ description: >
   怎么排查 / 排查顺序 / 先做什么 / 一步步 / 流程是什么 / 怎么选 / 哪个方案 / 有什么区别 /
   由什么组成 / 结构是什么 / 架构 / 多久能上 / 排期 / 占比 / 趋势 / 走势 / 为什么变慢。
   不适用：照片质感的插画、封面海报；视频、动图；3D 模型。
+
+  English triggers (so an English-speaking user's phrasing matches too):
+  how do I debug / what order / where do I start / step by step / how do I choose /
+  what's the difference / what's it made of / how long until it ships / proportion / trend /
+  draw a chart / flowchart / mind map / gantt / sankey / visualization / diagram.
 ---
 
-# visual-explain
+# chart-skill
 
 ## 这个技能要改变什么
 

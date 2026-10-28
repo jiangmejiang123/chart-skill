@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""visual-explain shared setup: CJK font, palette, save helper, graphviz lookup.
+"""chart-skill shared setup: CJK font, palette, save helper, graphviz lookup.
 
 Import this first and every figure gets a working CJK font and the same palette.
 """

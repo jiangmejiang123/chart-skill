@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-r"""visual-explain 出图 CLI —— 一行命令出图，不用每次手写 matplotlib。
+r"""chart-skill 出图 CLI —— 一行命令出图，不用每次手写 matplotlib。
 
 用法：
   python viz.py bar   --data '{"周一":80,"周二":60}' --title 标题 --out a.png
@@ -350,7 +350,7 @@ HELP_EXAMPLE = "example: viz bar --data {\"a\":1,\"b\":2} --title t --out a.png"
 
 
 def main():
-    ap = argparse.ArgumentParser(description="visual-explain - one command, one chart",
+    ap = argparse.ArgumentParser(description="chart-skill - one command, one chart",
                                  epilog=HELP_EXAMPLE)
     ap.add_argument("kind", nargs="?", choices=list(CMDS) + ["formula"])
     ap.add_argument("--demo", metavar="DIR", help="render all 12 example charts into DIR")

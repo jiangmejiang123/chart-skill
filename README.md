@@ -1,226 +1,206 @@
-# visual-explain
+# chart-skill
 
-**同一个问题，两种回答。**
+**English** · [中文](README.zh-CN.md) · [日本語](README.ja.md)
 
-![同一个问题，两种回答](examples/chat/compare-before-after.png)
+**Same question. Two answers.**
 
-同一句问题、同一个预设（标准模式）、同样的工作区，**唯一差别是这套东西在不在**。
+![Same prompt, same model, same workspace](examples/chat/compare-before-after.png)
 
-左边：**25 秒**，七段编号，读者自己排优先级。
-右边：**28 秒**，一张流程图，分支、出口、下一步全在图上。
+Left: **25 seconds**, seven numbered paragraphs — the reader has to prioritise them.
+Right: **28 seconds**, one flowchart — branches, exits and the next step are all on the canvas.
 
-**几乎一样的时间。**
-差的不是速度，是那三秒钟 AI 到底在"想怎么组织这段话"还是"想这事该画成什么"。
-它不改变 AI 会什么，改变的是它选择用哪种方式说。
+**Nearly the same time.** The difference is what the model decides to do with those three seconds.
+It doesn't change what the model *can* do. It changes what it *chooses* to do.
 
-这不是一个"图表库"，是一个 **agent 技能**：装进你的 AI 助手的技能目录后，
-它遇到能用图讲清的事情时，会先过一遍判断，而不是先铺三段话。
+This is an **agent skill**, not a charting library. Drop it into your agent's skill directory and it starts choosing diagrams over paragraphs — with hard rules for both directions: when it *must* draw, and when it *must not*.
 
 ---
 
-## 它改变的是什么
+## What it actually changes
 
-一段文字是**线性**的：读者要读到最后才知道重点，还得自己在脑子里拼出结构。
-一张图是**并行**的：结构、比例、流向、先后，一眼全在。
+Prose is **linear**: you have to read to the end to know what matters, then rebuild the structure in your head.
+A diagram is **parallel**: structure, proportion, flow and order are visible at once.
 
-所以判断标准不是"能不能画"，而是：
+So the question is never "can this be drawn" but:
 
-> **这块信息本来是不是就长成图的样子？**
+> **Is this information already shaped like a diagram?**
 
-是的话，画出来比写出来省一半时间。不是的话，硬做一张图只是浪费。
-这个技能里写死了这两条：**该画的时候必须画，不该画的时候不许画。**
+If yes, drawing it saves the reader half the work. If no, drawing it is just decoration. This skill encodes both halves — and the second one (restraint) is the part most tools miss.
 
-## 装上之后，回答会变成这样
+## What a conversation looks like after installing it
 
-技能装进去的不是"画图能力"，是**判断**。同一个问题，回答的形态会变。
+### Triage: five paragraphs → one flowchart
 
-### 排障：从五段话到一张流程图
+**Before** — the reader has to sort out the priorities:
 
-**以前**——读者得自己在脑子里排优先级：
+> This error usually has three causes. First, the port is taken… second, the config path is wrong… third, dependencies are missing… the first is the most common…
 
-> 这个报错通常有三个原因。第一是端口被占用……第二是配置文件路径写错了……第三是依赖没装全，缺哪个会报 module not found……三个里最常见的是第一个……
+**After**:
 
-**现在**：
+![Triaging a 500](examples/chat/1-flow.png)
 
-![接口 500 的排查顺序](examples/chat/1-flow.png)
+### Scheduling: "about six weeks" → a gantt you can argue with
 
-分支、出口、先查哪条，全在图上。
+![Delivery plan](examples/chat/3-gantt.png)
 
-### 排期：从"大概六周"到能对账的甘特
+### Structure: one breathless sentence → a mind map
 
-**以前**：需求一周、接口两周、前端两周、联调一周、压测一周半，大概六周吧。
-
-**现在**：
-
-![一个功能从需求到上线](examples/chat/3-gantt.png)
-
-### 结构：从一口气念完到一张脑图
-
-**以前**：上面是接入层有网关限流鉴权，中间是业务层订单支付通知，下面是数据层主库缓存队列，另外还有运维那一套。
-
-**现在**：
-
-![一套线上服务的组成](examples/chat/4-mind.png)
+![Service anatomy](examples/chat/4-mind.png)
 
 ---
 
-但真正难的不是这些，是**知道什么时候不该画**。
+But the hard part isn't drawing. It's **knowing when not to**.
 
-三个数以内用表格，两句话能说清的直接说，一次回答最多一两张图。
-这条写成了硬规则，在 `SKILL.md` 的「三问」和「什么时候不许画」两节里——
-不是"建议"，是每次回答前必须过的闸门。
+Three numbers or fewer: use a table. Two sentences: just say it. One or two diagrams per answer, maximum. Those are hard rules in `SKILL.md`, not suggestions — a gate the model has to pass before every reply.
 
-## 安装
-
-克隆下来，把整个目录放进你的 agent 技能目录：
+## Install
 
 ```bash
-git clone https://github.com/jiangmejiang123/visual-explain
-pip install -r visual-explain/requirements.txt
+git clone https://github.com/jiangmejiang123/chart-skill
+pip install -r chart-skill/requirements.txt
 
-# 然后整目录放进技能目录，按你的宿主选一个：
-#   Claude Code  → ~/.claude/skills/visual-explain/
-#   其他 agent   → 各自的 skills 目录（如 ~/.dsh/skills/、项目内 .agents/skills/）
+# then move the whole directory into your agent's skills folder:
+#   Claude Code  → ~/.claude/skills/chart-skill/
+#   other agents → their own skills dir (e.g. ~/.dsh/skills/, .agents/skills/ in a project)
 ```
 
-装完开新会话，问它一件需要讲结构的事，看它是不是换了表达方式。
+Open a new session and ask something that needs structure. Watch whether the answer changes shape.
 
-> 它认的是 `SKILL.md`（给模型看的判断规则）+ `scripts/`（执行脚本）。
-> 少了 SKILL.md 就只是一个画图工具，少了脚本就只是些建议——两个都要。
+> It reads `SKILL.md` (the judgement rules) + `scripts/` (the renderer).
+> Without SKILL.md it's just a chart tool; without the scripts it's just advice. You need both.
 
-## 它依赖什么（用之前先看这段）
+## What it depends on (read this before installing)
 
-这个技能是**两半**，缺一半就不生效：
+The skill has **two halves**, and it does nothing if you only install one:
 
-| 层 | 放在哪 | 负责 |
+| Half | Lives in | Responsible for |
 |---|---|---|
-| 技能本体 | `SKILL.md` + `scripts/` | 该画哪种图、怎么画、数据格式 |
-| **行为约束** | **你的工作区守则（AGENTS.md 之类）** | **"能画就别写段落"这条硬要求** |
+| The skill | `SKILL.md` + `scripts/` | which chart, how to draw it, data formats |
+| **The behavioural rule** | **your workspace instructions (AGENTS.md or equivalent)** | **"if you'd write paragraphs, draw it instead"** |
 
-为什么第二半不能省：技能要靠触发词才会被加载，而"这块该不该用图"是**每一轮都要做的判断**。
-只有技能、没有守则，AI 会安静地等你开口说"画个图"；有了守则，它才会主动画。
+Why the second half can't be skipped: the skill only loads when the description matches.
+But "should this be a diagram" is a **per-turn judgement**. With only the skill, the model quietly waits for you to say "draw me a flowchart". With the rule in place, it decides on its own.
 
-### 建议把这段加进你的 AGENTS.md
+### Add this to your AGENTS.md
 
 ```markdown
-## C4 · 先图后字
+## Draw before you write
 
-能一句话说清就一句话；要对比、清单、参数，就上表格；要流程、结构、趋势，就直接出图。
-文字只留结论和关键解释，通常不超过 8 行。
+One sentence is enough for one conclusion. Comparisons, lists and parameters belong in a table.
+Processes, structures and trends belong in a diagram.
 
-**违规形态**（出现即必须画图，不得用文字代替）：
-① 3 个以上带序号的段落，且彼此有先后或依赖关系；
-② 含「如果……就……」的分支描述（排障顺序、决策树、条件流程）；
-③ 用文字罗列"谁先谁后""卡在哪""由几部分组成"。
+**Violation shapes** (any of these means: draw it first, don't write it out):
+1. Three or more numbered sections that depend on each other in order;
+2. "If X then Y" branching (triage orders, decision trees);
+3. Prose enumerating "what comes first", "where it gets stuck", "what it's made of".
 
-编号列表不是"清单"。有顺序的编号列表，就是该被画成流程图的东西。
+A numbered list is not a "list". A numbered list with an order is a flowchart that hasn't been drawn yet.
 
-**豁免**：给用户照着敲的命令、照着点的菜单路径，用编号列表是对的。
-判据是"这一行能不能单独拿出来照做"。
+**Exemption**: steps the user will actually execute — commands to paste, menus to click — stay as a list.
+The test is whether a single line can be copied and run as-is.
 
-**画完就停**：图上能看出来的，正文不要再复述一遍。
+**Stop after drawing**: don't repeat the diagram in prose underneath it.
 ```
 
-### 实测：什么 harness 下能生效
+### Tested: which harnesses honour it
 
-| Harness | 结果 | 原因 |
+| Harness | Result | Why |
 |---|---|---|
-| DSH 标准预设 | ✅ 第一次提问就出图 | 每轮把工作区守则全文注入上下文 |
-| ZCode | ✅ 同上 | 同上 |
-| 极简开局类预设<br>（先跑两阶段引导、升格后只给"守则文件名"提示的） | ❌ 全程纯文字 | 守则全文从不注入，技能清单也被延迟 |
+| DSH standard preset | Works — diagram on the first question | workspace instructions injected in full every turn |
+| ZCode | Works — same | same |
+| Minimalist "phase-1 bootstrap" presets (defer the rules, then only hint at a filename) | Fails — plain text throughout | the full text is never injected, the skill catalog is deferred too |
 
-![真实会话：一次提问，直接出图](examples/chat/real-session-zcode.png)
+![A real session: one question, one diagram](examples/chat/real-session-zcode.png)
 
-**结论：这个技能假设你的 harness 会读工作区守则。不读的那种，别等它自己画——换模式，或者直接说"画个图"。**
+**This skill assumes your harness reads workspace instructions.** If yours doesn't, stop waiting for it to draw — switch presets, or just ask for the diagram.
 
-### 触发词已经写得很宽
+### The trigger words are deliberately broad
 
-描述里除了"画个图 / 流程图 / 脑图"这类明确点名的，还塞了真实场景的说法：
+Besides the obvious ones ("draw a chart", "flowchart", "mind map"), the description carries the words people actually use:
 
-> 怎么排查 / 排查顺序 / 先做什么 / 一步步 / 流程是什么 / 怎么选 / 哪个方案 /
-> 有什么区别 / 由什么组成 / 结构是什么 / 架构 / 多久能上 / 排期 / 占比 / 趋势 / 走势
+> how do I debug / what order / where do I start / step by step / how do I choose /
+> what's the difference / what's it made of / how long until it ships / proportion / trend
 
-因为用户想问的时候，通常不会说"给我画个流程图"，而是说"服务挂了怎么查"。
-**触发词写窄了，技能就永远等不到它该上场的那一刻。**
+Because nobody asks "draw me a flowchart". They ask "how do I debug this".
+**Narrow trigger words mean the skill never gets to show up when it matters.**
 
-至于最终由哪个宿主、在什么时机把技能清单递到模型手上——那是 harness 的设计选择，不是技能能决定的。
+Which harness hands the catalog to the model, and when — that's a harness decision, not something a skill can control.
 
-## 自己跑一下
-
-不想装也能当命令行工具用：
+## Run it yourself
 
 ```bash
-python scripts/viz.py --demo out          # 一次出全部 12 张
-python scripts/viz.py bar --data '{"周一":12,"周二":19,"周三":15}' --title "每周提交" --out a.png
+python scripts/viz.py --demo out          # all 12 chart types at once
+python scripts/viz.py bar --data '{"Mon":12,"Tue":19,"Wed":15}' --title "Commits" --out a.png
 ```
 
-## 12 种图
+## 12 chart types
 
-![12 种图总览](examples/overview.png)
+![Overview](examples/overview.png)
 
-| 命令 | 画什么 | 数据格式 |
+| Command | Draws | Data |
 |---|---|---|
-| `bar` | 柱状 / 条形对比 | `{"A":12,"B":19}` |
-| `line` | 折线，多系列 | `{"系列1":[1,2,3],"系列2":[3,2,1]}` |
-| `pie` | 占比 | `{"开发":38,"会议":16}` |
-| `scatter` | 两个量的关系 | `{"x":[...],"y":[...]}` |
-| `heatmap` | 矩阵热力 | `{"matrix":[[..]],"rows":[..],"cols":[..]}` |
-| `flow` | 流程图 / 判断分支 | `{"nodes":[{"id":"a","label":"开始"}],"edges":[["a","b"]]}` |
-| `mind` | 脑图 / 层级拆分 | `{"root":"主题","children":{"分支":["叶子"]}}` |
-| `gantt` | 甘特图 / 排期 | `{"unit":"小时","tasks":[{"name":"改造","start":0,"dur":1.2}]}` |
-| `sankey` | 流向 / 转化漏斗 | `{"left":[["搜索",40]],"right":[["安装",38]],"flows":[["搜索","安装",16]]}` |
-| `treemap` | 构成占比（块多时更省地方） | `{"代码":45,"文档":22}` |
-| `network` | 关系网络 / 依赖 | `{"edges":[["A","B"]]}` |
-| `formula` | LaTeX 公式 | `--expr "E=mc^2"`，多条用 `;;` 分隔 |
+| `bar` | bars / columns | `{"A":12,"B":19}` |
+| `line` | line, multi-series | `{"s1":[1,2,3],"s2":[3,2,1]}` |
+| `pie` | proportions | `{"dev":38,"meetings":16}` |
+| `scatter` | two-variable relationship | `{"x":[...],"y":[...]}` |
+| `heatmap` | matrix intensity | `{"matrix":[[..]],"rows":[..],"cols":[..]}` |
+| `flow` | flowcharts / branches | `{"nodes":[{"id":"a","label":"start"}],"edges":[["a","b"]]}` |
+| `mind` | mind maps / trees | `{"root":"topic","children":{"branch":["leaf"]}}` |
+| `gantt` | schedules | `{"unit":"weeks","tasks":[{"name":"x","start":0,"dur":1.2}]}` |
+| `sankey` | flows / funnels | `{"left":[["search",40]],"right":[["install",38]],"flows":[["search","install",16]]}` |
+| `treemap` | composition, many blocks | `{"code":45,"docs":22}` |
+| `network` | relationships / dependencies | `{"edges":[["A","B"]]}` |
+| `formula` | LaTeX | `--expr "E=mc^2"`, separate with `;;` |
 
-全部效果见 `examples/`——都是 `--demo` 的原图，没有后期修。
+Every example in `examples/` is raw `--demo` output — nothing retouched.
 
 ## CLI
 
 ```
 python scripts/viz.py <kind> [options]
 
-  --data JSON        内联 JSON，或 - 从 stdin 读
-  --json-file PATH   数据文件
-  --expr LaTeX       仅 formula；多条用 ;; 分隔
-  --title TEXT       图标题
-  --out PATH         输出图片（必填，除非用 --demo）
-  --width / --height 英寸
-  --dpi N            默认 150
-  --demo DIR         一次生成全部 12 张示例图
+  --data JSON        inline JSON, or - to read stdin
+  --json-file PATH   data from a file
+  --expr LaTeX       formula only; separate several with ;;
+  --title TEXT       chart title
+  --out PATH         output image (required unless --demo)
+  --width / --height inches
+  --dpi N            default 150
+  --demo DIR         render all 12 example charts
 ```
 
-## 依赖
+## Requirements
 
-Python 包见 `requirements.txt`：`matplotlib` `seaborn` `networkx` `squarify` `graphviz`。
+Python packages (`requirements.txt`): `matplotlib` `seaborn` `networkx` `squarify` `graphviz`.
 
-其中 `flow` 和 `mind` 还要 **Graphviz 的系统二进制**（Python 的 `graphviz` 包只是调用它的壳）：
+`flow` and `mind` additionally need **the Graphviz binary** (the Python package is only a wrapper):
 
-| 系统 | 安装 |
+| OS | Install |
 |---|---|
-| Windows | `winget install graphviz` 或到 [graphviz.org/download](https://graphviz.org/download/) |
+| Windows | `winget install graphviz` or [graphviz.org/download](https://graphviz.org/download/) |
 | macOS | `brew install graphviz` |
 | Debian / Ubuntu | `apt install graphviz` |
 
-装完不用重启终端——脚本会在 `PATH` 之外再去几个常见目录找一次 `dot`。
+No shell restart needed — the script looks in the usual install directories when `dot` isn't on `PATH`.
 
-## 中文字体
+## CJK fonts
 
-自动按平台探测：**微软雅黑 → 苹方 → Noto Sans CJK → 思源黑体 → 文泉驿 → 黑体**。
-一个都没有时会向 stderr 提示，此时中文显示为方块。补一个即可：
+Detected per platform: **Microsoft YaHei → PingFang SC → Noto Sans CJK → Source Han Sans → WenQuanYi → SimHei**.
+
+If none is found it prints a warning to stderr and CJK text renders as boxes. Fix:
 
 ```bash
 apt install fonts-noto-cjk            # Debian / Ubuntu
 brew install font-noto-sans-cjk-sc    # macOS
 ```
 
-配色和字体都在 `scripts/vizlib.py` 顶部，改常量就行。超过 7 个系列时颜色自动循环。
+Palette and font live at the top of `scripts/vizlib.py`. Colours cycle automatically past seven series.
 
-## 边界
+## Boundaries
 
-- 只管**结构、比例、流向**。照片质感插画、封面海报 → 用生图模型
-- 视频、动图 → 用 ffmpeg 类工具；3D → 用 3D 工具；文档/PPT/Excel → 用 office 类工具
-- 只要交互（筛选、点击）→ 写 HTML，别画静态图
+- Structure, proportion and flow only. Photo-style illustrations or covers → use an image model.
+- Video, GIFs → use an ffmpeg-style tool. 3D → use a 3D tool. Documents/PPT/Excel → use an office tool.
+- Interaction (filter, click) → write HTML, don't draw a static chart.
 
 ## License
 
